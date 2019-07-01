@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 ruby '2.6.3'
 
+gem 'activerecord-import'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
 gem 'dotenv-rails'
