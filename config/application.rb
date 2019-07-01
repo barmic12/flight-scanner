@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails/all'
@@ -7,7 +9,6 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 Dotenv::Railtie.load
 ENVied.require(*ENV['ENVIED_GROUPS'] || Rails.groups)
-
 
 module FlightScanner
   class Application < Rails::Application
