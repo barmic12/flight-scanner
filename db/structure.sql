@@ -134,6 +134,38 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: trips; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.trips (
+    id bigint NOT NULL,
+    flight_id bigint,
+    seats integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: trips_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.trips_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: trips_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.trips_id_seq OWNED BY public.trips.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -184,6 +216,13 @@ ALTER TABLE ONLY public.flights ALTER COLUMN id SET DEFAULT nextval('public.flig
 
 
 --
+-- Name: trips id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.trips ALTER COLUMN id SET DEFAULT nextval('public.trips_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -223,6 +262,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: trips trips_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.trips
+    ADD CONSTRAINT trips_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -252,6 +299,13 @@ CREATE INDEX index_flights_on_to_airport_id ON public.flights USING btree (to_ai
 
 
 --
+-- Name: index_trips_on_flight_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_trips_on_flight_id ON public.trips USING btree (flight_id);
+
+
+--
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -263,6 +317,14 @@ CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
+
+
+--
+-- Name: trips fk_rails_0f85f9bf5e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.trips
+    ADD CONSTRAINT fk_rails_0f85f9bf5e FOREIGN KEY (flight_id) REFERENCES public.flights(id);
 
 
 --
@@ -291,6 +353,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190701054137'),
 ('20190701072925'),
 ('20190702063237'),
-('20190702063700');
+('20190702063700'),
+('20190703184618');
 
 
