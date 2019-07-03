@@ -134,6 +134,38 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: trip_follows; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.trip_follows (
+    id bigint NOT NULL,
+    trip_id bigint,
+    user_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: trip_follows_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.trip_follows_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: trip_follows_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.trip_follows_id_seq OWNED BY public.trip_follows.id;
+
+
+--
 -- Name: trips; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -216,6 +248,13 @@ ALTER TABLE ONLY public.flights ALTER COLUMN id SET DEFAULT nextval('public.flig
 
 
 --
+-- Name: trip_follows id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.trip_follows ALTER COLUMN id SET DEFAULT nextval('public.trip_follows_id_seq'::regclass);
+
+
+--
 -- Name: trips id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -262,6 +301,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: trip_follows trip_follows_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.trip_follows
+    ADD CONSTRAINT trip_follows_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: trips trips_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -299,6 +346,20 @@ CREATE INDEX index_flights_on_to_airport_id ON public.flights USING btree (to_ai
 
 
 --
+-- Name: index_trip_follows_on_trip_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_trip_follows_on_trip_id ON public.trip_follows USING btree (trip_id);
+
+
+--
+-- Name: index_trip_follows_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_trip_follows_on_user_id ON public.trip_follows USING btree (user_id);
+
+
+--
 -- Name: index_trips_on_flight_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -320,11 +381,27 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING bt
 
 
 --
+-- Name: trip_follows fk_rails_005bf1f146; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.trip_follows
+    ADD CONSTRAINT fk_rails_005bf1f146 FOREIGN KEY (trip_id) REFERENCES public.trips(id);
+
+
+--
 -- Name: trips fk_rails_0f85f9bf5e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.trips
     ADD CONSTRAINT fk_rails_0f85f9bf5e FOREIGN KEY (flight_id) REFERENCES public.flights(id);
+
+
+--
+-- Name: trip_follows fk_rails_932761364a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.trip_follows
+    ADD CONSTRAINT fk_rails_932761364a FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -354,6 +431,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190701072925'),
 ('20190702063237'),
 ('20190702063700'),
-('20190703184618');
+('20190703184618'),
+('20190703194636');
 
 
