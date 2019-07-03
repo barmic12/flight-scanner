@@ -5,4 +5,5 @@ class Trip < ApplicationRecord
 
   has_many :trip_follows
   has_many :users, through: :trip_follows
+  has_many :trip_fares
 end
